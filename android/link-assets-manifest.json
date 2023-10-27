@@ -1,0 +1,21 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/theme/assets/fonts/avenir-next-bold.ttf",
+      "sha1": "867f4a06bc39597440fdd010b555e77d6a9087c9"
+    },
+    {
+      "path": "src/theme/assets/fonts/avenir-next-demibold.ttf",
+      "sha1": "2fbd065a87ea8ff25ffb6e0c5c468a0f664a1e08"
+    },
+    {
+      "path": "src/theme/assets/fonts/avenir-next-medium.ttf",
+      "sha1": "37917394903c96b8bfde44fd85e46809faffe704"
+    },
+    {
+      "path": "src/theme/assets/fonts/avenir-next-regular.ttf",
+      "sha1": "52eca0165f24fd63f3f11341063fb2e27fa93a42"
+    }
+  ]
+}
