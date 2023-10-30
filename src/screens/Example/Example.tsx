@@ -24,7 +24,13 @@ import { authorize } from 'react-native-app-auth';
 import { Colors } from '@/theme/Variables';
 import GenericText from '@/components/Generic/GenericText/GenericText';
 import LoginButton from '@/components/Login/LoginButton';
-const Example = () => {
+import {
+  authenticateUserAsync,
+  requestRefreshedAccessTokenAsync,
+  setTokens,
+} from '@/store/authSlice';
+import { styles } from './style';
+const Example = ({ navigation }) => {
   const { t } = useTranslation(['example', 'welcome']);
   const {
     Common,
@@ -53,75 +59,29 @@ const Example = () => {
     i18next.changeLanguage(lang);
   };
 
-  // const navigation = useNavigation();
-  // useEffect(() => {
-  //   const checkTokenValidity = async () => {
-  //     const accessToken = await AsyncStorage.getItem('token');
-  //     const expirationDate = await AsyncStorage.getItem('expirationDate');
-  //     console.log('acess token', accessToken);
-  //     console.log('expiration date', expirationDate);
-
-  //     if (accessToken && expirationDate) {
-  //       const currentTime = Date.now();
-  //       if (currentTime < parseInt(expirationDate)) {
-  //         // here the token is still valid
-  //         // navigation.replace('Main');
-  //         console.log('main');
-  //       } else {
-  //         // token would be expired so we need to remove it from the async storage
-  //         AsyncStorage.removeItem('token');
-  //         AsyncStorage.removeItem('expirationDate');
-  //       }
-  //     }
-  //   };
-
-  //   checkTokenValidity();
-  // }, []);
-  async function authenticate() {
-    console.log('1');
-    const config = {
-      issuer: 'https://accounts.spotify.com',
-      clientId: 'ecc2b06486e440d1abbe3e082cb8c634',
-      redirectUrl: 'com.bird:/oauth',
-      scopes: [
-        'user-read-email',
-        'user-library-read',
-        'user-read-recently-played',
-        'user-top-read',
-        'playlist-read-private',
-        'playlist-read-collaborative',
-        'playlist-modify-public', // or "playlist-modify-private"
-      ],
-      serviceConfiguration: {
-        authorizationEndpoint: 'https://accounts.spotify.com/authorize',
-        tokenEndpoint: 'https://accounts.spotify.com/api/token',
-      },
-    };
-
-    try {
-      const result = await authorize(config);
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
-    console.log('2');
-
-    // if (result.accessToken) {
-    //   const expirationDate = new Date(
-    //     result.accessTokenExpirationDate,
-    //   ).getTime();
-    //   AsyncStorage.setItem('token', result.accessToken);
-    //   AsyncStorage.setItem('expirationDate', expirationDate.toString());
-    //   // navigation.navigate('Main');
-    // }
+  function authenticate() {
+    dispatch(authenticateUserAsync())
+      .unwrap()
+      .then(() => {
+        console.log('nav');
+        navigation.replace('Home');
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
   }
+
+  const fetchtoken = async () => {
+    const authData = await AsyncStorage.getItem('authData');
+    console.log(authData);
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.dark }}>
       <ImageBackground
         source={require('../../theme/assets/images/login-background.png')}
         resizeMode="stretch"
-        style={{ flex: 1, width: '100%', height: '68%' }}
+        style={styles.bgImg}
       >
         <ScrollView
           bounces={false}
@@ -135,8 +95,7 @@ const Example = () => {
         >
           <View
             style={[
-              // { backgroundColor: 'red' },
-              { paddingTop: '70%' },
+              styles.mainView,
               Layout.fill,
               // Layout.relative,
               Layout.fullWidth,
@@ -147,48 +106,18 @@ const Example = () => {
             <Image
               source={require('../../theme/assets/images/logo.png')}
               resizeMode="contain"
-              style={{ height: 60, width: 60 }}
+              style={styles.logo}
             />
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <GenericText
-                textType="bold"
-                style={{
-                  color: 'white',
-                  fontSize: 35,
-                  textAlign: 'center',
-                }}
-              >
-                Millions of songs.{'\n'}Free on Spotify.
-              </GenericText>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                paddingTop: '5%',
-              }}
-            >
+
+            <GenericText textType="bold" style={styles.text}>
+              Millions of songs.{'\n'}Free on Spotify.
+            </GenericText>
+            <View style={styles.btnsContainer}>
               <TouchableOpacity
                 onPress={authenticate}
-                style={{
-                  backgroundColor: Colors.green200,
-                  padding: 10,
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                  height: 50,
-                  width: '90%',
-                  borderRadius: 25,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginVertical: 10,
-                }}
+                style={styles.spotifyBtn}
               >
-                <GenericText
-                  textType="bold"
-                  style={{
-                    color: 'black',
-                    fontSize: 18,
-                  }}
-                >
+                <GenericText textType="bold" style={styles.btntext}>
                   Sign In with Spotify
                 </GenericText>
               </TouchableOpacity>
@@ -196,7 +125,9 @@ const Example = () => {
                 iconColor={'white'}
                 icon={'google'}
                 text={'Continue with Google'}
-                onPress={() => {}}
+                onPress={() => {
+                  fetchtoken();
+                }}
               />
               <LoginButton
                 iconColor={'white'}

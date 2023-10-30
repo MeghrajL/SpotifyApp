@@ -6,8 +6,6 @@ import { Colors } from '@/theme/Variables';
 import { Layout } from '@/theme';
 
 const LoginButton = ({ icon, text, onPress, iconColor }) => {
-  console.log(icon);
-
   const iconImages = {
     google: require('../../theme/assets/images/google.png'),
     facebook: require('../../theme/assets/images/facebook.png'),

@@ -12,13 +12,14 @@ const Startup = ({ navigation }: ApplicationScreenProps) => {
     await new Promise(resolve =>
       setTimeout(() => {
         resolve(true);
-      }, 2000),
+      }, 1),
     );
     await setDefaultTheme({ theme: 'default', darkMode: null });
     navigation.reset({
       index: 0,
       routes: [{ name: 'Main' }],
     });
+    // navigation.navigate('Main', {});
   };
 
   useEffect(() => {
