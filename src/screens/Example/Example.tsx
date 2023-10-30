@@ -78,6 +78,7 @@ const Example = () => {
   //   checkTokenValidity();
   // }, []);
   async function authenticate() {
+    console.log('1');
     const config = {
       issuer: 'https://accounts.spotify.com',
       clientId: 'ecc2b06486e440d1abbe3e082cb8c634',
@@ -96,7 +97,6 @@ const Example = () => {
         tokenEndpoint: 'https://accounts.spotify.com/api/token',
       },
     };
-    console.log('1');
 
     try {
       const result = await authorize(config);
@@ -136,7 +136,7 @@ const Example = () => {
           <View
             style={[
               // { backgroundColor: 'red' },
-              { paddingTop: '50%' },
+              { paddingTop: '70%' },
               Layout.fill,
               // Layout.relative,
               Layout.fullWidth,
@@ -147,72 +147,70 @@ const Example = () => {
             <Image
               source={require('../../theme/assets/images/logo.png')}
               resizeMode="contain"
-              style={{ height: 70, width: 70 }}
+              style={{ height: 60, width: 60 }}
             />
-
-            <GenericText
-              textType="bold"
-              style={{
-                color: 'white',
-                fontSize: 40,
-              }}
-            >
-              Millions of Songs.
-            </GenericText>
-            <GenericText
-              textType="bold"
-              style={{
-                color: 'white',
-                fontSize: 40,
-              }}
-            >
-              Free on Spotify.
-            </GenericText>
-            {/* <Icon name="star" size={30} color="#900" /> */}
-            {/* <View style={{ height: 50 }} /> */}
-            <TouchableOpacity
-              onPress={authenticate}
-              style={{
-                backgroundColor: Colors.green200,
-                padding: 10,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                height: 50,
-                width: '90%',
-                borderRadius: 25,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginVertical: 10,
-              }}
-            >
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               <GenericText
                 textType="bold"
                 style={{
-                  color: 'black',
-                  fontSize: 18,
+                  color: 'white',
+                  fontSize: 35,
+                  textAlign: 'center',
                 }}
               >
-                Sign In with Spotify
+                Millions of songs.{'\n'}Free on Spotify.
               </GenericText>
-            </TouchableOpacity>
-            <LoginButton
-              iconColor={'white'}
-              icon={'google'}
-              text={'Continue with Google'}
-              onPress={() => {}}
-            />
-            <LoginButton
-              iconColor={'white'}
-              icon={'facebook'}
-              text={'Continue with Facebook'}
-              onPress={() => {}}
-            />
-            <LoginButton
-              iconColor={'white'}
-              icon={'apple'}
-              text={'Continue with Apple'}
-              onPress={() => {}}
-            />
+            </View>
+            <View
+              style={{
+                width: '100%',
+                paddingTop: '5%',
+              }}
+            >
+              <TouchableOpacity
+                onPress={authenticate}
+                style={{
+                  backgroundColor: Colors.green200,
+                  padding: 10,
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  height: 50,
+                  width: '90%',
+                  borderRadius: 25,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginVertical: 10,
+                }}
+              >
+                <GenericText
+                  textType="bold"
+                  style={{
+                    color: 'black',
+                    fontSize: 18,
+                  }}
+                >
+                  Sign In with Spotify
+                </GenericText>
+              </TouchableOpacity>
+              <LoginButton
+                iconColor={'white'}
+                icon={'google'}
+                text={'Continue with Google'}
+                onPress={() => {}}
+              />
+              <LoginButton
+                iconColor={'white'}
+                icon={'facebook'}
+                text={'Continue with Facebook'}
+                onPress={() => {}}
+              />
+              <LoginButton
+                iconColor={'white'}
+                icon={'apple'}
+                text={'Continue with Apple'}
+                onPress={() => {}}
+              />
+            </View>
           </View>
           {/* 
         <Button
