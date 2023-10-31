@@ -9,53 +9,53 @@ const Stack = createStackNavigator();
 
 // @refresh reset
 const MainNavigator = ({ navigation }) => {
-  let route = 'Home';
-  const dispatch = useDispatch();
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  useEffect(() => {
-    const tryLogin = async () => {
-      const authData = await AsyncStorage.getItem('authData');
-      if (!authData) return;
+  // let route = 'Home';
+  // const dispatch = useDispatch();
+  // const [isLoggedIn, setLoggedIn] = useState(false);
+  // useEffect(() => {
+  //   const tryLogin = async () => {
+  //     const authData = await AsyncStorage.getItem('authData');
+  //     if (!authData) return;
 
-      const { accessToken, refreshToken, accessTokenExpirationDate } =
-        await JSON.parse(authData);
+  //     const { accessToken, refreshToken, accessTokenExpirationDate } =
+  //       await JSON.parse(authData);
 
-      console.log(
-        'date',
-        new Date(accessTokenExpirationDate) <= new Date(),
-        'access',
-        accessToken,
-        'r',
-        refreshToken,
-      );
+  //     console.log(
+  //       'date',
+  //       new Date(accessTokenExpirationDate) <= new Date(),
+  //       'access',
+  //       accessToken,
+  //       'r',
+  //       refreshToken,
+  //     );
 
-      if (
-        new Date(accessTokenExpirationDate) <= new Date() ||
-        !accessToken ||
-        !refreshToken
-      ) {
-        dispatch(requestRefreshedAccessTokenAsync(refreshToken));
-        return;
-      }
-      dispatch(setTokens({ accessToken, refreshToken }));
-      // navigation.replace('Home');
-      setLoggedIn(true);
-    };
-    tryLogin();
-  }, [dispatch]);
+  //     if (
+  //       new Date(accessTokenExpirationDate) <= new Date() ||
+  //       !accessToken ||
+  //       !refreshToken
+  //     ) {
+  //       dispatch(requestRefreshedAccessTokenAsync(refreshToken));
+  //       return;
+  //     }
+  //     dispatch(setTokens({ accessToken, refreshToken }));
+  //     // navigation.replace('Home');
+  //     setLoggedIn(true);
+  //   };
+  //   tryLogin();
+  // }, [dispatch]);
 
-  console.log(isLoggedIn);
-  // route = isLoggedIn ? 'Home' : 'Example';
-  if (isLoggedIn !== true) route = 'Example';
-  console.log(route);
+  // console.log(isLoggedIn);
+  // // route = isLoggedIn ? 'Home' : 'Example';
+  // if (isLoggedIn !== true) route = 'Example';
+  // console.log(route);
 
   return (
     <Stack.Navigator
-      initialRouteName={route}
+      // initialRouteName={route}
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Example" component={Example} />
+      {/* <Stack.Screen name="Example" component={Example} /> */}
     </Stack.Navigator>
   );
 };

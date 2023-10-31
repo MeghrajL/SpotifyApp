@@ -64,7 +64,11 @@ const Example = ({ navigation }) => {
       .unwrap()
       .then(() => {
         console.log('nav');
-        navigation.replace('Home');
+        // navigation.('Home');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Main' }],
+        });
       })
       .catch(err => {
         console.log('err', err);
