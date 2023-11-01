@@ -24,12 +24,9 @@ import { authorize } from 'react-native-app-auth';
 import { Colors } from '@/theme/Variables';
 import GenericText from '@/components/Generic/GenericText/GenericText';
 import LoginButton from '@/components/Login/LoginButton';
-import {
-  authenticateUserAsync,
-  requestRefreshedAccessTokenAsync,
-  setTokens,
-} from '@/store/authSlice';
+
 import { styles } from './style';
+import { ExampleViewModel } from '@/viewModel/Example/ExampleViewModel';
 const Example = ({ navigation }) => {
   const { t } = useTranslation(['example', 'welcome']);
   const {
@@ -42,43 +39,22 @@ const Example = ({ navigation }) => {
   } = useTheme();
   const dispatch = useDispatch();
 
-  const [fetchOne, { data, isSuccess, isLoading, isFetching }] =
-    useLazyFetchOneQuery();
+  // const [fetchOne, { data, isSuccess, isLoading, isFetching }] =
+  //   useLazyFetchOneQuery();
 
-  useEffect(() => {
-    if (isSuccess && data?.name) {
-      Alert.alert(t('example:helloUser', { name: data.name }));
-    }
-  }, [isSuccess, data]);
+  // useEffect(() => {
+  //   if (isSuccess && data?.name) {
+  //     Alert.alert(t('example:helloUser', { name: data.name }));
+  //   }
+  // }, [isSuccess, data]);
 
-  const onChangeTheme = ({ theme, darkMode }: Partial<ThemeState>) => {
-    dispatch(changeTheme({ theme, darkMode }));
-  };
+  // const onChangeTheme = ({ theme, darkMode }: Partial<ThemeState>) => {
+  //   dispatch(changeTheme({ theme, darkMode }));
+  // };
 
-  const onChangeLanguage = (lang: 'fr' | 'en') => {
-    i18next.changeLanguage(lang);
-  };
-
-  function authenticate() {
-    dispatch(authenticateUserAsync())
-      .unwrap()
-      .then(() => {
-        console.log('nav');
-        // navigation.('Home');
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Main' }],
-        });
-      })
-      .catch(err => {
-        console.log('err', err);
-      });
-  }
-
-  const fetchtoken = async () => {
-    const authData = await AsyncStorage.getItem('authData');
-    console.log(authData);
-  };
+  // const onChangeLanguage = (lang: 'fr' | 'en') => {
+  //   i18next.changeLanguage(lang);
+  // };
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.dark }}>
@@ -118,7 +94,9 @@ const Example = ({ navigation }) => {
             </GenericText>
             <View style={styles.btnsContainer}>
               <TouchableOpacity
-                onPress={authenticate}
+                onPress={() =>
+                  ExampleViewModel.authenticateUser(dispatch, navigation)
+                }
                 style={styles.spotifyBtn}
               >
                 <GenericText textType="bold" style={styles.btntext}>
@@ -129,9 +107,7 @@ const Example = ({ navigation }) => {
                 iconColor={'white'}
                 icon={'google'}
                 text={'Continue with Google'}
-                onPress={() => {
-                  fetchtoken();
-                }}
+                onPress={() => ExampleViewModel.fetchToken()}
               />
               <LoginButton
                 iconColor={'white'}

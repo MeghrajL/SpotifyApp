@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Example, Home } from '../screens';
+import { Example, Home } from '../views';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { requestRefreshedAccessTokenAsync, setTokens } from '@/store/authSlice';
