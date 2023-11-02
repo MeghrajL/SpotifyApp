@@ -5,8 +5,13 @@ import {
   requestRefreshedAccessTokenAsync,
   setTokens,
 } from '@/store/authSlice';
+import { ExampleScreenNavigationProp } from 'types/navigation';
+import { AppDispatch } from '@/store';
 
-const authenticateUser = async (dispatch: any, navigation: any) => {
+const authenticateUser = async (
+  dispatch: AppDispatch,
+  navigation: ExampleScreenNavigationProp,
+) => {
   try {
     await dispatch(authenticateUserAsync()).unwrap();
     navigation.reset({

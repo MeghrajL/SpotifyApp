@@ -17,6 +17,7 @@ import { api } from '../services/api';
 import theme from './theme';
 import authSlice from './authSlice/index';
 import userSlice from './userSlice';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 const reducers = combineReducers({
   theme,
   [api.reducerPath]: api.reducer,
@@ -71,3 +72,9 @@ const persistor = persistStore(store);
 setupListeners(store.dispatch);
 
 export { store, persistor };
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

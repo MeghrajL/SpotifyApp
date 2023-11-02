@@ -5,23 +5,18 @@ import { useSelector } from 'react-redux';
 
 export const getProfile = createAsyncThunk(
   'user/getProfile',
-  async (accessToken, thunkAPI) => {
-    console.log('hhh');
-    // const accessToken = useSelector(state => state.authSlice.accessToken);
-    console.log('>', accessToken);
+  async (accessToken: string, thunkAPI) => {
     try {
-      const response = await axios.get(`https://api.spotify.com/v1/me`, {
+      const response = await axios.get(`${process.env.API_URL}/me`, {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      //   Toast.show('sign in successful', Toast.SHORT);
       console.log(response.data);
       return response.data;
     } catch (error: any) {
-      //   Toast.show('try again', Toast.SHORT);
       return thunkAPI.rejectWithValue(error.message);
     }
   },

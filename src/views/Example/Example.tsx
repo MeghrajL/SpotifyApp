@@ -27,7 +27,8 @@ import LoginButton from '@/components/Login/LoginButton';
 
 import { styles } from './style';
 import { ExampleViewModel } from '@/viewModel/Example/ExampleViewModel';
-const Example = ({ navigation }) => {
+import { ExampleScreenNavigationProp } from 'types/navigation';
+const Example = ({ navigation }: ExampleScreenNavigationProp) => {
   const { t } = useTranslation(['example', 'welcome']);
   const {
     Common,

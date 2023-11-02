@@ -1,6 +1,6 @@
 import { authorize, refresh } from 'react-native-app-auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { config } from '@/utils/authconfig';
 
 interface IAuthState {
@@ -13,7 +13,7 @@ interface IAuthState {
 
 const initialState: IAuthState = {
   accessToken: '',
-  refreshToken: '',
+  refreshToken: null,
   tokenIsLoading: false,
   error: null,
 };
@@ -78,7 +78,10 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setTokens: (state: any, action: any) => {
+    setTokens: (
+      state: any,
+      action: PayloadAction<{ accessToken: string; refreshToken: string }>,
+    ) => {
       const { accessToken, refreshToken } = action.payload;
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;

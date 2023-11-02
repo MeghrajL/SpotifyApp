@@ -1,30 +1,31 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
 import { getProfile } from './actions';
+import { IInitialState } from './type';
+
+const initialState: IInitialState = {
+  profile: null,
+  error: null,
+  isProfileLoading: false,
+};
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    profile: null,
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: builder => {
     builder
       .addCase(getProfile.pending, (state, action) => {
-        console.log('Loading...');
-        // You can update the state as needed while the request is pending.
-        // For example, set a loading flag or clear any previous errors.
+        state.isProfileLoading = true;
       })
       .addCase(getProfile.fulfilled, (state, action) => {
         state.profile = action.payload;
+        state.isProfileLoading = false;
+        state.error = null;
         console.log('Fulfilled:', action.payload);
-        // Update the state with the data from the fulfilled action (action.payload).
       })
       .addCase(getProfile.rejected, (state, action) => {
-        console.log('Rejected:', action.error);
-        // state.error = action.payload
-        // Handle the error, update the state, or perform error-related actions.
+        state.error = action.payload || null;
+        state.isProfileLoading = false;
       });
   },
 });

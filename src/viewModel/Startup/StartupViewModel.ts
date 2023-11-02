@@ -1,10 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch } from 'react-redux';
-import { ApplicationScreenProps } from '../../../@types/navigation';
 import { requestRefreshedAccessTokenAsync, setTokens } from '@/store/authSlice';
 import { setDefaultTheme } from '../../store/theme';
+import { AppDispatch } from '@/store';
+import { StartupScreenNavigationProp } from 'types/navigation';
 
-const initializeStartup = async (dispatch, navigation) => {
+const initializeStartup = async (
+  dispatch: AppDispatch,
+  navigation: StartupScreenNavigationProp,
+) => {
   const authData = await AsyncStorage.getItem('authData');
 
   if (!authData) {
@@ -20,7 +23,13 @@ const initializeStartup = async (dispatch, navigation) => {
     !accessToken ||
     !refreshToken
   ) {
+    console.log('new access token generated using refresh token');
+
     dispatch(requestRefreshedAccessTokenAsync(refreshToken));
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Main' }],
+    });
     return;
   }
 
