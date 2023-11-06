@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { requestRefreshedAccessTokenAsync, setTokens } from '@/store/authSlice';
-import { setDefaultTheme } from '../../store/theme';
+import theme, { changeTheme, setDefaultTheme } from '../../store/theme';
 import { AppDispatch } from '@/store';
 import { StartupScreenNavigationProp } from 'types/navigation';
 
@@ -8,6 +8,7 @@ const initializeStartup = async (
   dispatch: AppDispatch,
   navigation: StartupScreenNavigationProp,
 ) => {
+  // dispatch(changeTheme({ theme, true }));
   const authData = await AsyncStorage.getItem('authData');
 
   if (!authData) {
@@ -34,7 +35,8 @@ const initializeStartup = async (
   }
 
   dispatch(setTokens({ accessToken, refreshToken }));
-  await setDefaultTheme({ theme: 'default', darkMode: null });
+  await setDefaultTheme({ theme: 'default', darkMode: true });
+  // onChangeTheme({ darkMode: true });
   navigation.reset({
     index: 0,
     routes: [{ name: 'Main' }],
